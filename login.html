@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eco Loop Login</title>
+  <link rel="stylesheet" href="CSS/log_reg.css" />
+  <style>
+    body,
+    html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
+      background-color: #f5f5f5;
+    }
+
+    .main_content {
+      width: 100%;
+    }
+
+    .container {
+      background-color: white;
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      min-width: 300px;
+      max-width: 400px;
+    }
+
+    .show-password {
+      margin-top: 0.5em;
+      font-size: 0.9em;
+    }
+
+    .show-password input {
+      margin-right: 0.3em;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main_content">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="Homepage.html" class="navbar-home" style="align-items: center;" >Home</a>
+    </nav>
+
+    <div class="container">
+      <h2>Welcome to Eco Loop</h2>
+      <div class="role-buttons">
+        <button onclick="showLoginForm('user')">User</button>
+        <button onclick="showLoginForm('org')">Organization</button>
+      </div>
+
+      <div id="login-form" class="hidden">
+        <h3 id="login-title">Login</h3>
+        <input type="email" id="login-email" placeholder="Email" required />
+        <input type="password" id="login-password" placeholder="Password" required />
+        <div class="show-password">
+          <input type="checkbox" id="toggle-password" />
+          <label for="toggle-password">Show password</label>
+        </div>
+        <button onclick="login()">Login</button>
+        <p><a href="#" onclick="showRegistrationOptions()">Not Registered Yet?!</a></p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      © Eco-Loop 2025. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    let selectedRole = 'user'; // Track selected role
+
+    function showLoginForm(role) {
+      selectedRole = role;
+      document.getElementById("login-form").classList.remove("hidden");
+      document.getElementById("login-title").innerText = `Login as ${role === 'user' ? 'User' : 'Organization'}`;
+    }
+
+    function showRegistrationOptions() {
+      window.location.href = "register.html";
+    }
+
+    async function login() {
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value.trim();
+
+      try {
+        const response = await fetch('login.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+        });
+
+        const data = await response.json();
+
+        if (data.status === 'success') {
+          // Store user data in localStorage
+          localStorage.setItem('user', JSON.stringify(data.user));
+
+          // Redirect based on actual role from server
+          if (data.user.role === 'organization') {
+            window.location.href = 'ecoloop_dashboard.html';
+          } else {
+            window.location.href = 'User_Dashboard.html';
+          }
+        } else {
+          alert('Login failed: ' + data.message);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Network error. Please try again.');
+      }
+    }
+    document.getElementById('toggle-password')
+      .addEventListener('change', function () {
+        const pwd = document.getElementById('modal-password');
+        pwd.type = this.checked ? 'text' : 'password';
+      });
+  </script>
+</body>
+
+</html>

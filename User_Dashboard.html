@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoLoop Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="CSS/user_dashboard.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="main-container">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background: #2d6a35;">
+      <div class="container-fluid">
+        <a class="navbar-brand text-white text-uppercase" href="homepage.html">Home</a>
+        <div class="dropdown ms-auto">
+          <a class="nav-link dropdown-toggle text-white text-uppercase" href="#" id="userDropdown"
+            data-bs-toggle="dropdown">
+            OPTIONS
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item text-uppercase" href="#" onclick="showSection('dashboard')">Dashboard</a></li>
+            <li><a class="dropdown-item text-uppercase" href="#" onclick="showSection('settings')">Account
+                Settings</a></li>
+            <li><a class="dropdown-item text-uppercase" href="#" onclick="confirmLogout()">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="content-wrapper">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <img src="images/ecoloop_dashboard/avatar.jpeg" alt="User Photo">
+        <h4>John Doe</h4>
+        <nav class="nav flex-column">
+          <a class="nav-link active" id="link-dashboard" onclick="showSection('dashboard')">Dashboard</a>
+          <a class="nav-link" id="link-recycle" onclick="window.location.href='sell.html'">Recycle</a>
+          <a class="nav-link" id="link-history" onclick="showSection('history')">History</a>
+          <a class="nav-link" id="link-transactions" onclick="showSection('transactions')">Transactions</a>
+          <a class="nav-link" id="link-cashout" onclick="showSection('cashout')">Cash Out</a>
+          <a class="nav-link" id="link-settings" onclick="showSection('settings')">Settings</a>
+          <a class="nav-link text-danger" id="link-logout" onclick="confirmLogout()">Logout</a>
+        </nav>
+      </div>
+      <!-- Right Content Area -->
+      <div class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="content-section">
+          <h2>Welcome to the Greenery, <span id="user-name">John</span></h2>
+          <h4>Stats</h4>
+          <div class="d-flex gap-3 mb-4">
+            <div class="placard w-25">
+              <h5>Earned Badge</h5>
+              <p>Eco-Warrior</p>
+            </div>
+            <div class="placard w-25">
+              <h5>Total Points</h5>
+              <p id="points-display">365</p>
+            </div>
+            <div class="placard w-25">
+              <h5>Eco Currency</h5>
+              <p id="eco-currency-balance">0.00</p>
+            </div>
+          </div>
+          <button class="btn btn-success mb-3" onclick="window.location.href='sell.html'">Recycle Now!</button>
+          <hr>
+          <blockquote class="blockquote mt-4">
+            "The greatest threat to our planet is the belief that someone else will save it."
+          </blockquote>
+          <button class="btn btn-outline-success">Donate</button>
+        </section>
+
+        <!-- History Section -->
+        <section id="history" class="content-section" style="display:none;">
+          <h2>Recycling History</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Item</th>
+                <th>Unit (kg)</th>
+                <th>Earned</th>
+              </tr>
+            </thead>
+            <tbody id="history-body">
+              <!-- History rows will be added here -->
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Transactions Section -->
+        <section id="transactions" class="content-section" style="display:none;">
+          <h2>Transaction History</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="transactions-body">
+              <!-- Transactions will be added here -->
+            </tbody>
+          </table>
+        </section>
+        <!-- Cash Out Section -->
+        <section id="cashout" class="content-section" style="display:none;">
+          <h2>Cash Out Eco Currency</h2>
+          <p>Convert your eco balance to real money (TK)</p>
+
+          <div class="notification alert alert-warning" id="cashout-notification" style="display:none;">
+            Minimum cash out amount is 1,000 TK
+          </div>
+
+          <div class="balance-info mb-4">
+            <h3>Your Available Balance</h3>
+            <div class="balance-amount" id="cashout-balance">0.00 TK</div>
+            <p class="balance-subtext">1 Eco Currency = 1 TK</p>
+          </div>
+
+          <form id="cashout-form">
+            <div class="mb-3">
+              <label for="amount" class="form-label">Amount to Cash Out</label>
+              <div class="input-group">
+                <span class="input-group-text">৳</span>
+                <input type="number" class="form-control" id="amount" placeholder="Enter amount" min="1000"
+                  value="1000">
+              </div>
+              <div class="form-text">Minimum: 1,000 TK</div>
+            </div>
+
+            <button class="btn btn-primary w-100" id="cashout-btn">Request Cash Out</button>
+          </form>
+        </section>
+        <!-- Settings Section -->
+        <section id="settings" class="content-section" style="display:none;">
+          <h2>Account Settings</h2>
+          <div class="text-center mb-4">
+            <img src="avatar.png" alt="User Photo" style="width:400px; height:400px">
+          </div>
+          <div id="details-view">
+            <p><strong>Name:</strong> <span id="view-name">John Doe</span></p>
+            <p><strong>Phone:</strong> <span id="view-phone">+8801XXXXXXXXX</span></p>
+            <p><strong>Email:</strong> <span id="view-email">john@example.com</span></p>
+            <button class="btn btn-outline-primary text-uppercase" onclick="enableEdit()">Edit Details</button>
+          </div>
+          <div id="details-edit" style="display:none;">
+            <div class="mb-2"><input type="text" id="edit-name" class="form-control" value="John Doe"></div>
+            <div class="mb-2"><input type="text" id="edit-phone" class="form-control" value="+8801XXXXXXXXX"></div>
+            <div class="mb-2"><input type="email" id="edit-email" class="form-control" value="john@example.com"></div>
+            <button class="btn btn-success text-uppercase" onclick="saveDetails()">Confirm Details</button>
+          </div>
+          <hr>
+          <button class="btn btn-warning text-uppercase">Change Password</button>
+        </section>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <small>© Ecoloop Ltd.™ All Rights Reserved</small>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Dashboard data loader
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Update user info
+      document.querySelector('.sidebar h4').textContent = user.name;
+      document.getElementById('user-name').textContent = user.name;
+      document.getElementById('view-name').textContent = user.name;
+      document.getElementById('view-email').textContent = user.email;
+      document.getElementById('edit-name').value = user.name;
+      document.getElementById('edit-email').value = user.email;
+
+      try {
+        // Fetch user balance
+        const balanceResponse = await fetch('get_balance.php');
+        const balanceData = await balanceResponse.json();
+
+        if (balanceData.status === 'success') {
+          const balance = balanceData.balance;
+          document.getElementById('eco-currency-balance').textContent = `${balance} Tk`;
+          document.getElementById('cashout-balance').textContent = `${balance} Tk`;
+        } else {
+          console.error('Balance fetch error:', balanceData.message);
+        }
+
+        // Fetch transaction history
+        const txResponse = await fetch('get_transactions.php');
+        const txData = await txResponse.json();
+
+        if (txData.status === 'success') {
+          const txBody = document.getElementById('transactions-body');
+          txBody.innerHTML = '';
+
+          txData.transactions.forEach(tx => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+          <td>${new Date(tx.created_at).toLocaleDateString()}</td>
+          <td>${tx.type}</td>
+          <td>${tx.amount} Tk</td>
+          <td>${tx.status}</td>
+        `;
+            txBody.appendChild(row);
+          });
+        } else {
+          console.error('Transactions fetch error:', txData.message);
+        }
+
+        // Fetch recycling history
+        const historyResponse = await fetch('get_recycling_history.php');
+        const historyData = await historyResponse.json();
+
+        if (historyData.status === 'success') {
+          const historyBody = document.getElementById('history-body');
+          historyBody.innerHTML = '';
+
+          historyData.orders.forEach(order => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+          <td>${new Date(order.created_at).toLocaleDateString()}</td>
+          <td>${order.material_name}</td>
+          <td>${order.quantity} kg</td>
+          <td>${order.earned} Tk</td>
+        `;
+            historyBody.appendChild(row);
+          });
+        } else {
+          console.error('History fetch error:', historyData.message);
+        }
+
+      } catch (error) {
+        console.error('Dashboard error:', error);
+        alert('Error loading dashboard data');
+      }
+
+      // Initialize cashout functionality
+      initCashout();
+    });
+
+    function showSection(id) {
+      document.querySelectorAll('.content-section').forEach(sec => sec.style.display = 'none');
+      document.getElementById(id).style.display = '';
+      document.querySelectorAll('.sidebar .nav-link').forEach(link => link.classList.remove('active'));
+      const map = {
+        dashboard: 'link-dashboard',
+        history: 'link-history',
+        transactions: 'link-transactions',
+        settings: 'link-settings',
+        cashout: 'link-cashout'
+      };
+      if (map[id]) document.getElementById(map[id]).classList.add('active');
+
+      // Update cashout balance when showing cashout section
+      if (id === 'cashout') {
+        const balance = document.getElementById('eco-currency-balance').textContent;
+        document.getElementById('cashout-balance').textContent = balance;
+      }
+    }
+
+    function confirmLogout() {
+      if (confirm('Are you sure you want to leave?')) {
+        localStorage.removeItem('user');
+        window.location.href = 'homepage.html';
+      } else {
+        showSection('dashboard');
+      }
+    }
+
+    function enableEdit() {
+      document.getElementById('details-view').style.display = 'none';
+      document.getElementById('details-edit').style.display = '';
+    }
+
+    async function saveDetails() {
+      const name = document.getElementById('edit-name').value;
+      const phone = document.getElementById('edit-phone').value;
+      const email = document.getElementById('edit-email').value;
+
+      try {
+        const response = await fetch('update_profile.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            phone: phone
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.status === 'success') {
+          // Update local storage
+          const user = JSON.parse(localStorage.getItem('user'));
+          user.name = name;
+          user.email = email;
+          localStorage.setItem('user', JSON.stringify(user));
+
+          // Update UI
+          document.getElementById('view-name').textContent = name;
+          document.getElementById('view-email').textContent = email;
+          document.getElementById('view-phone').textContent = phone;
+          document.querySelector('.sidebar h4').textContent = name;
+
+          document.getElementById('details-view').style.display = '';
+          document.getElementById('details-edit').style.display = 'none';
+
+          alert('Profile updated successfully!');
+        } else {
+          throw new Error(data.message);
+        }
+      } catch (error) {
+        alert('Error updating profile: ' + error.message);
+      }
+    }
+
+    // Cashout functionality
+    function initCashout() {
+      const cashoutBtn = document.getElementById('cashout-btn');
+      const notification = document.getElementById('cashout-notification');
+      const amountInput = document.getElementById('amount');
+
+      if (!cashoutBtn || !notification || !amountInput) {
+        console.log('Cashout elements not found');
+        return;
+      }
+
+      // Amount validation
+      function validateAmount() {
+        const amount = parseFloat(amountInput.value) || 0;
+        const balanceText = document.getElementById('eco-currency-balance').textContent;
+        const balance = parseFloat(balanceText.replace(' Tk', '')) || 0;
+
+        if (amount < 1000) {
+          notification.textContent = 'Minimum cash out amount is 1,000 TK';
+          notification.style.display = 'block';
+          cashoutBtn.disabled = true;
+        } else if (amount > balance) {
+          notification.textContent = 'Amount exceeds your available balance';
+          notification.style.display = 'block';
+          cashoutBtn.disabled = true;
+        } else {
+          notification.style.display = 'none';
+          cashoutBtn.disabled = false;
+        }
+      }
+
+      amountInput.addEventListener('input', validateAmount);
+
+      // Initial validation
+      validateAmount();
+
+      // Cash out button functionality
+      cashoutBtn.addEventListener('click', async function (e) {
+        e.preventDefault();
+
+        const amount = parseFloat(amountInput.value);
+
+        try {
+          const response = await fetch('cashout.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount: amount })
+          });
+
+          const data = await response.json();
+
+          if (data.status === 'success') {
+            // Redirect to verification page
+            window.location.href = `cashout_verify.html?tx_id=${data.transaction_id}&amount=${amount}`;
+          } else {
+            throw new Error(data.message);
+          }
+        } catch (error) {
+          alert('Error: ' + error.message);
+        }
+      });
+    }
+
+    // Refresh transactions after cashout
+    async function refreshTransactions() {
+      try {
+        const txResponse = await fetch('get_transactions.php');
+        const txData = await txResponse.json();
+
+        if (txData.status === 'success') {
+          const txBody = document.getElementById('transactions-body');
+          txBody.innerHTML = '';
+
+          txData.transactions.forEach(tx => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+          <td>${new Date(tx.created_at).toLocaleDateString()}</td>
+          <td>${tx.type}</td>
+          <td>${tx.amount} Tk</td>
+          <td>${tx.status}</td>
+        `;
+            txBody.appendChild(row);
+          });
+        }
+      } catch (error) {
+        console.error('Error refreshing transactions:', error);
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashout Verification - Eco Loop</title>
+    <link rel="stylesheet" href="CSS/cashout_f.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="logo-container">
+                <img src="images/homepage/logo.png" alt="EcoLoop Logo">
+                <h2>EcoLoop</h2>
+            </div>
+
+            <div id="verification-flow">
+                <!-- Step 1: Account Number Verification -->
+                <div id="step-account" class="step active">
+                    <h3>Cashout Verification</h3>
+                    <div class="balance-display">
+                        <p>Amount to Cashout:</p>
+                        <h2 id="cashout-amount">0.00 TK</h2>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bkash-account">bKash Account Number</label>
+                        <input type="tel" class="form-control" id="bkash-account" placeholder="01XXXXXXXXX" required>
+                        <div class="form-text">Enter your bKash registered mobile number</div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" id="verify-account">Confirm Account</button>
+                        <button class="btn btn-secondary" id="cancel-tx">Cancel Transaction</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Password Verification -->
+                <div id="step-password" class="step">
+                    <div class="success-animation">
+                        <i class="fas fa-check-circle"></i>
+                        <p>Account verified successfully!</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Enter Your Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="••••••••" required>
+                        <div class="form-text">For security verification</div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" id="confirm-tx">Confirm Transaction</button>
+                        <button class="btn btn-secondary" id="cancel-tx2">Cancel Transaction</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Success Message -->
+                <div id="step-success" class="step">
+                    <div class="success-animation large">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Cashout Successful!</h3>
+                        <p id="success-message">bKash Transfer Request Successful</p>
+                    </div>
+
+                    <div class="tx-details">
+                        <p><strong>Transaction ID:</strong> <span id="tx-id"></span></p>
+                        <p><strong>Amount:</strong> <span id="tx-amount"></span> TK</p>
+                        <p><strong>Recipient:</strong> <span id="tx-account"></span></p>
+                    </div>
+
+                    <button class="btn btn-primary" id="back-to-dashboard">Back to Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const txId = urlParams.get('tx_id');
+            const amount = urlParams.get('amount');
+
+            // Get DOM elements
+            const stepAccount = document.getElementById('step-account');
+            const stepPassword = document.getElementById('step-password');
+            const stepSuccess = document.getElementById('step-success');
+            const cashoutAmount = document.getElementById('cashout-amount');
+            const verifyAccountBtn = document.getElementById('verify-account');
+            const confirmTxBtn = document.getElementById('confirm-tx');
+            const cancelBtns = document.querySelectorAll('[id^="cancel-tx"]');
+            const backToDashboard = document.getElementById('back-to-dashboard');
+            const txIdElement = document.getElementById('tx-id');
+            const txAmountElement = document.getElementById('tx-amount');
+            const txAccountElement = document.getElementById('tx-account');
+            const successMessage = document.getElementById('success-message');
+
+            // Set initial values
+            cashoutAmount.textContent = `${parseFloat(amount).toFixed(2)} TK`;
+
+            // Account verification
+            verifyAccountBtn.addEventListener('click', () => {
+                const account = document.getElementById('bkash-account').value;
+
+                // Simple validation for Bangladeshi mobile numbers
+                if (!/^01[3-9]\d{8}$/.test(account)) {
+                    alert('Please enter a valid Bangladeshi mobile number');
+                    return;
+                }
+
+                // Show password step with animation
+                stepAccount.classList.remove('active');
+                stepPassword.classList.add('active');
+            });
+
+            // Transaction confirmation
+            confirmTxBtn.addEventListener('click', async () => {
+                const password = document.getElementById('password').value;
+                const account = document.getElementById('bkash-account').value;
+
+                try {
+                    const response = await fetch('complete_cashout.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            tx_id: txId,
+                            account: account,
+                            password: password
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.status === 'success') {
+                        // Show success message
+                        stepPassword.classList.remove('active');
+                        txIdElement.textContent = txId;
+                        txAmountElement.textContent = parseFloat(amount).toFixed(2);
+                        txAccountElement.textContent = account;
+                        successMessage.textContent = data.message;
+                        stepSuccess.classList.add('active');
+                    } else {
+                        throw new Error(data.message);
+                    }
+                } catch (error) {
+                    alert('Error: ' + error.message);
+                }
+            });
+
+            // Cancel buttons
+            cancelBtns.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (confirm('Are you sure you want to cancel this transaction? Your funds will be returned to your account.')) {
+                        try {
+                            const response = await fetch('cancel_cashout.php', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ tx_id: txId })
+                            });
+
+                            const data = await response.json();
+
+                            if (data.status === 'success') {
+                                alert(`Transaction cancelled. ${data.returned_amount} TK has been returned to your account.`);
+                                window.location.href = 'User_dashboard.html';
+                            } else {
+                                throw new Error(data.message);
+                            }
+                        } catch (error) {
+                            alert('Cancellation error: ' + error.message);
+                        }
+                    }
+                });
+            });
+
+            // Back to dashboard
+            backToDashboard.addEventListener('click', () => {
+                window.location.href = 'User_dashboard.html';
+            });
+        });
+    </script>
+</body>
+
+</html>

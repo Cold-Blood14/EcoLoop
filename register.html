@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - Eco Loop</title>
+  <link rel="stylesheet" href="CSS/log_reg.css" />
+  <link rel="stylesheet" href="CSS/login_modal.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    .show-password {
+      margin-top: 0.5em;
+      font-size: 0.9em;
+    }
+
+    .show-password input {
+      margin-right: 0.3em;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo-home-container">
+      <div class="logo-section">
+        <div class="logo"><img src="images/homepage/logo.png" alt="EcoLoop Logo" /></div>
+        <span class="center-title">EcoLoop</span>
+      </div>
+      <a href="Homepage.html" class="navbar-home">Home</a>
+    </div>
+  </nav>
+
+  <div class="main-content">
+    <div class="container">
+      <h2>Create Your Eco Loop Account</h2>
+      <div class="role-buttons">
+        <button onclick="showRegistrationForm('user')">User</button>
+        <button onclick="showRegistrationForm('org')">Organization</button>
+      </div>
+
+      <form id="registration-form" class="hidden" onsubmit="event.preventDefault(); validateRegistration();">
+        <h3 id="registration-title">Register as User</h3>
+        <input type="text" id="name" placeholder="Full Name" required />
+        <input type="email" id="email" placeholder="Email Address" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <div class="show-password">
+          <input type="checkbox" id="toggle-reg-password" />
+          <label for="toggle-reg-password">Show passwords</label>
+        </div>
+        <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+        <p id="password-error" style="color:red; display:none;"></p>
+
+        <div class="phone-wrapper">
+          <select id="country-code">
+            <option value="+880">+880 (BD)</option>
+            <option value="+1">+1 (US)</option>
+            <option value="+44">+44 (UK)</option>
+          </select>
+          <input type="tel" id="phone" placeholder="Phone Number" required />
+        </div>
+
+        <div id="org-fields" class="hidden">
+          <input type="text" id="org-name" placeholder="Organization Name" />
+          <input type="text" id="org-reg" placeholder="Registration Number" />
+        </div>
+
+        <div class="dob-selects">
+          <select id="birth-day" required>
+            <option value="">Day</option>
+            <script>
+              for (let i = 1; i <= 31; i++) {
+                document.write(`<option value="${i}">${i}</option>`);
+              }
+            </script>
+          </select>
+          <select id="birth-month" required>
+            <option value="">Month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+          <select id="birth-year" required>
+            <option value="">Year</option>
+            <script>
+              const currentYear = new Date().getFullYear();
+              for (let i = currentYear; i >= 1900; i--) {
+                document.write(`<option value="${i}">${i}</option>`);
+              }
+            </script>
+          </select>
+        </div>
+
+        <textarea id="address" placeholder="Address" rows="3" required></textarea><br>
+        <label for="profile-pic">Profile Picture (Optional)</label>
+        <input type="file" id="profile-pic" accept="image/*" />
+
+        <button type="submit">Register</button>
+        <p>Already have an account? <a href="#" onclick="openLoginModal(event)">Login here</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <div class="modal-content">
+      <button class="close" aria-label="Close login modal" onclick="closeLoginModal()">&times;</button>
+      <h2 id="loginTitle">Log In</h2>
+      <input type="email" id="modal-email" placeholder="Email" required />
+      <input type="password" id="modal-password" placeholder="Password" required />
+      <div class="show-password">
+        <input type="checkbox" id="toggle-password" />
+        <label for="toggle-password">Show password</label>
+      </div>
+      <a href="#" class="forgot-password" onclick="alert('Please contact support to reset your password.')">Forgot
+        Password?</a>
+      <button onclick="login()">Log In</button>
+      <p class="register-link">Not Registered Yet?! <a href="register.html">Register here</a></p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © Eco-Loop 2025. All rights reserved.
+  </footer>
+
+  <script>
+    let selectedRole = 'user';
+
+    function showRegistrationForm(role) {
+      selectedRole = role;
+      document.getElementById("registration-form").classList.remove("hidden");
+      document.getElementById("registration-title").innerText = `Register as ${role === 'user' ? 'User' : 'Organization'}`;
+
+      if (role === 'org') {
+        document.getElementById("org-fields").classList.remove("hidden");
+        document.getElementById("org-name").required = true;
+        document.getElementById("org-reg").required = true;
+      } else {
+        document.getElementById("org-fields").classList.add("hidden");
+        document.getElementById("org-name").required = false;
+        document.getElementById("org-reg").required = false;
+      }
+    }
+
+    function validatePassword() {
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      const errorElement = document.getElementById('password-error');
+
+      if (password.length < 8) {
+        errorElement.textContent = "Password must be at least 8 characters!";
+        errorElement.style.display = 'block';
+        return false;
+      }
+
+      if (password !== confirmPassword) {
+        errorElement.textContent = "Passwords do not match!";
+        errorElement.style.display = 'block';
+        return false;
+      }
+
+      errorElement.style.display = 'none';
+      return true;
+    }
+
+    async function validateRegistration() {
+      if (!validatePassword()) return;
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const role = selectedRole === 'org' ? 'organization' : 'user';
+
+      try {
+        const response = await fetch('register.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            password: password,
+            role: role
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.status === 'success') {
+          alert('Registration successful! Please login.');
+          window.location.href = 'login.html';
+        } else {
+          alert(`Registration failed: ${data.message}`);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Network error. Please try again.');
+      }
+    }
+
+    // Login Modal Functions
+    function openLoginModal(event) {
+      event.preventDefault();
+      document.getElementById('loginModal').classList.remove('hidden');
+    }
+
+    function closeLoginModal() {
+      document.getElementById('loginModal').classList.add('hidden');
+      document.getElementById('modal-email').value = '';
+      document.getElementById('modal-password').value = '';
+    }
+
+    async function login() {
+      const email = document.getElementById('modal-email').value.trim();
+      const password = document.getElementById('modal-password').value.trim();
+
+      if (!email || !password) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      try {
+        const response = await fetch('login.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+        });
+
+        const data = await response.json();
+
+        if (data.status === 'success') {
+          localStorage.setItem('user', JSON.stringify(data.user));
+          closeLoginModal();
+
+          if (data.user.role === 'organization') {
+            window.location.href = 'ecoloop_dashboard.html';
+          } else {
+            window.location.href = 'User_Dashboard.html';
+          }
+        } else {
+          alert('Login failed: ' + data.message);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Network error. Please try again.');
+      }
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closeLoginModal();
+      }
+    });
+
+    window.addEventListener('click', function (e) {
+      const modal = document.getElementById('loginModal');
+      if (e.target === modal) {
+        closeLoginModal();
+      }
+    });
+    document.getElementById('toggle-password')
+      .addEventListener('change', function () {
+        const pwd = document.getElementById('modal-password');
+        pwd.type = this.checked ? 'text' : 'password';
+      });
+    document.getElementById('toggle-reg-password')
+      .addEventListener('change', function () {
+        const pwd = document.getElementById('password');
+        const cpwd = document.getElementById('confirm-password');
+        const type = this.checked ? 'text' : 'password';
+        pwd.type = type;
+        cpwd.type = type;
+      });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sell Waste - Eco Loop</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <link rel="stylesheet" href="CSS/sell3.css" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet" />
+ <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet" />
+ <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Moonrocks&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+
+
+
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <div class="logo-home-container">
+        <div class="logo-section">
+          <img src="images/homepage/logo.png" alt="EcoLoop Logo" class="logo-img" />
+          <span class="brand-title">EcoLoop</span>
+          <a href="Homepage2.html" class="home-link">Home</a>
+        </div>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <div class="dropdown">
+        <button class="dropbtn">👤 Username <i class="fas fa-caret-down"></i></button>
+        <div class="dropdown-content">
+          <a href="User_Dashboard.html">Dashboard</a>
+          <a href="#">Settings</a>
+          <a href="#" onclick="logout()">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="motivation-banner">
+    <h1>🌱 Make a Difference with Your Waste!</h1>
+    <p>Every kilo recycled helps reduce pollution, saves energy, and earns you money. Join Eco Loop to build a cleaner, greener future!</p>
+  </section>
+
+  <section class="quote-section">
+    <p id="quote">"Recycling is not a burden, it's an opportunity."</p>
+  </section>
+
+  <main class="sell-container">
+    <!-- LEFT: Sell Form -->
+    <section class="sell-form">
+      <h2>♻️ Sell Your Waste</h2>
+      <form id="sell-form" autocomplete="off">
+        <div id="waste-container" aria-label="Waste Entry Section">
+          <!-- Waste entries will be added here -->
+        </div>
+
+        <button type="button" class="add-btn" onclick="addWasteEntry()">➕ Add Waste</button>
+
+        <label for="mobile"><i class="fas fa-phone"></i> Mobile No.:</label>
+        <input type="tel" id="mobile" name="mobile" pattern="01[0-9]{9}" placeholder="e.g. 01XXXXXXXXX" title="Enter valid 11-digit Bangladeshi number" required />
+
+        <label for="address"><i class="fas fa-map-marker-alt"></i> Address:</label>
+        <textarea id="address" name="address" rows="3" required></textarea>
+
+        <label for="photo"><i class="fas fa-camera"></i> Upload Waste Photo:</label>
+        <input type="file" id="photo" name="photo" accept="image/*" />
+        <div id="preview"></div>
+
+        <label for="notes"><i class="fas fa-sticky-note"></i> Additional Notes:</label>
+        <textarea id="notes" name="notes" rows="3"></textarea>
+
+        <button type="button" id="submit-btn">Submit</button>
+      </form>
+    </section>
+
+    <!-- RIGHT: Price Summary -->
+    <aside class="price-summary">
+      <h3>💰 Price Breakdown</h3>
+      <div class="price-breakdown">
+        <p>Paper: 50 Tk/kg</p>
+        <p>Plastic: 30 Tk/kg</p>
+        <p>Metal: 100 Tk/kg</p>
+      </div>
+      <p><strong>Total:</strong> <span id="price-display">0</span> Tk</p>
+    </aside>
+  </main>
+
+  <!-- JavaScript -->
+  <script>
+    const priceMap = {
+      paper: 50,
+      plastic: 30,
+      metal: 100
+    };
+
+    const wasteContainer = document.getElementById('waste-container');
+
+    // Function to add waste entry
+    function addWasteEntry() {
+      const entry = document.createElement('div');
+      entry.className = 'waste-entry';
+
+      const typeLabel = document.createElement('label');
+      typeLabel.innerHTML = '<i class="fas fa-recycle"></i> Waste Type:';
+      const typeSelect = document.createElement('select');
+      typeSelect.className = 'waste-type';
+      typeSelect.innerHTML = `
+        <option value="">-- Select --</option>
+        <option value="paper">Paper (50 Tk/kg)</option>
+        <option value="plastic">Plastic (30 Tk/kg)</option>
+        <option value="metal">Metal (100 Tk/kg)</option>
+      `;
+
+      const qtyLabel = document.createElement('label');
+      qtyLabel.innerHTML = '<i class="fas fa-weight"></i> Quantity (kg):';
+      const qtyInput = document.createElement('input');
+      qtyInput.type = 'number';
+      qtyInput.min = '1';
+      qtyInput.className = 'waste-quantity';
+
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.textContent = 'Remove';
+      removeBtn.className = 'remove-btn';
+      removeBtn.onclick = () => {
+        entry.remove();
+        updateTotalPrice();
+      };
+
+      typeSelect.addEventListener('change', updateTotalPrice);
+      qtyInput.addEventListener('input', updateTotalPrice);
+
+      entry.appendChild(typeLabel);
+      entry.appendChild(typeSelect);
+      entry.appendChild(qtyLabel);
+      entry.appendChild(qtyInput);
+      entry.appendChild(removeBtn);
+
+      wasteContainer.appendChild(entry);
+    }
+
+    // Function to update total price
+    function updateTotalPrice() {
+      let total = 0;
+      document.querySelectorAll('.waste-entry').forEach(entry => {
+        const type = entry.querySelector('.waste-type').value;
+        const qty = parseFloat(entry.querySelector('.waste-quantity').value);
+        if (type && qty && qty > 0 && priceMap[type]) {
+          total += priceMap[type] * qty;
+        }
+      });
+      document.getElementById('price-display').textContent = total;
+    }
+
+    // Add first entry by default
+    addWasteEntry();
+
+    // Image preview with clear option
+    const photoInput = document.getElementById('photo');
+    const previewDiv = document.getElementById('preview');
+
+    photoInput.addEventListener('change', function () {
+      previewDiv.innerHTML = '';
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.alt = 'Waste Preview';
+          img.style.maxWidth = '100%';
+          img.style.borderRadius = '8px';
+
+          const remove = document.createElement('button');
+          remove.textContent = 'Remove Image';
+          remove.className = 'remove-image-btn';
+          remove.onclick = () => {
+            photoInput.value = '';
+            previewDiv.innerHTML = '';
+          };
+
+          previewDiv.style.display = 'block';
+          previewDiv.appendChild(img);
+          previewDiv.appendChild(remove);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Map material names to backend IDs
+    function getMaterialId(type) {
+      const mapping = {
+        'paper': 1,
+        'plastic': 2,
+        'metal': 3
+      };
+      return mapping[type];
+    }
+    
+    // Logout function
+    function logout() {
+      localStorage.removeItem('user');
+      window.location.href = 'login.html';
+    }
+
+    // Submit handler
+    document.getElementById('submit-btn').addEventListener('click', async function() {
+      // Check if user is logged in
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user) {
+        alert('Please login first');
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      // Gather waste items
+      const items = [];
+      let isValid = true;
+      let total = 0;
+      
+      document.querySelectorAll('.waste-entry').forEach(entry => {
+        const type = entry.querySelector('.waste-type').value;
+        const qty = parseFloat(entry.querySelector('.waste-quantity').value);
+        
+        if (!type || qty <= 0) {
+          isValid = false;
+          entry.style.border = '2px solid red';
+        } else {
+          const materialId = getMaterialId(type);
+          const price = priceMap[type] * qty;
+          total += price;
+          
+          items.push({
+            material_id: materialId,
+            quantity: qty,
+            price: price
+          });
+        }
+      });
+      
+      if (!isValid || items.length === 0) {
+        alert('Please fill all waste items correctly');
+        return;
+      }
+      
+      // Get additional form data
+      const mobile = document.getElementById('mobile').value;
+      const address = document.getElementById('address').value;
+      const notes = document.getElementById('notes').value;
+      
+      try {
+        // Create order
+        const response = await fetch('create_sell_order.php', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            user_id: user.id,
+            items: items,
+            total: total,
+            mobile: mobile,
+            address: address,
+            notes: notes
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+          alert(`Sale successful! ${total} Tk added to your account.`);
+          window.location.href = 'User_Dashboard.html';
+        } else {
+          throw new Error(data.message || 'Order creation failed');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert(`Error: ${error.message}`);
+      }
+    });
+
+    // Rotating quotes
+    const quotes = [
+      "Recycling is not a burden, it's an opportunity.",
+      "One small act can make a world of difference.",
+      "Don’t throw it away – it can be used another day!",
+      "Waste isn’t waste until we waste it.",
+      "Join Eco Loop. Be the change you wish to see!"
+    ];
+    let quoteIndex = 0;
+    const quoteElement = document.getElementById('quote');
+    setInterval(() => {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      quoteElement.textContent = quotes[quoteIndex];
+    }, 4000);
+  </script>
+  <footer class="footer">
+    © Eco-Loop 2025. All rights reserved.
+  </footer>
+</body>
+</html>
