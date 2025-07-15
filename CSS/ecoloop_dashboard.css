@@ -1,0 +1,167 @@
+body {
+  background-color: #f0fff0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Book Antiqua', sans-serif;
+}
+
+.sidebar {
+  background-color: #e8f5e9;
+  min-height: calc(100vh - 56px);
+  height: 100%;
+}
+
+.main-content {
+  min-height: calc(100vh - 56px - 56px);
+}
+
+.footer {
+  height: 56px;
+  background: #1b5e20;
+  padding: 10px;
+  text-align: center;
+}
+
+.footer small {
+  color: #fff;
+}
+
+.nav-link.active {
+  font-weight: bold;
+  color: #2d6a35 !important;
+  background: #c8e6c9;
+  border-radius: 5px;
+}
+
+.navbar {
+  background: #2d6a35 !important;
+}
+
+.navbar-brand, .navbar-text {
+  color: white !important;
+}
+
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+.dropdown-item:active {
+  background-color: #2d6a35;
+  color: white;
+}
+
+.cart-item {
+  border-bottom: 1px solid #dee2e6;
+  padding: 15px 0;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-total {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 2px solid #2d6a35;
+}
+
+.product-card {
+  transition: transform 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 14px 20px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.orders-table thead {
+  background-color: #00a86b;
+  color: white;
+}
+
+.orders-table tr:hover {
+  background-color: #f1fdf6;
+}
+
+.upload-form-section {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .video-section {
+    width: 90%;
+  }
+  
+  .section-header {
+    padding: 15px;
+    border-radius: 12px;
+  }
+  
+  .section-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .video-container {
+    padding: 15px;
+    border-radius: 12px;
+  }
+}
+.currency-option {
+      cursor: pointer;
+      padding: 20px;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      text-align: center;
+      margin-bottom: 20px;
+      background: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .currency-option:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .currency-option.deposit {
+      border-left: 4px solid #28a745;
+    }
+
+    .currency-option.cashout {
+      border-left: 4px solid #dc3545;
+    }
+
+    .balance-display {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .balance-amount {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #2d6a35;
+    }

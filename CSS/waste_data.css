@@ -1,0 +1,145 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background-color: #f0fff5;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #007a3d;
+  padding: 15px 30px;
+  color: white;
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+    color: white;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.nav-links a:hover {
+  background-color: #005d2a;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropbtn {
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  color: black;
+  min-width: 160px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 10px 15px;
+  display: block;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.page-header {
+  text-align: center;
+  padding: 30px;
+  background-color: #d4fbe8;
+  border-bottom: 2px solid #b2f0d1;
+}
+
+.page-header h1 {
+  margin-bottom: 10px;
+  color: #007a3d;
+}
+
+.upload-form-section {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.upload-form-section form {
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-form-section label {
+  margin-top: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.upload-form-section select,
+.upload-form-section textarea,
+.upload-form-section input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+.upload-form-section button {
+  margin-top: 20px;
+  background-color: #00a86b;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.upload-form-section button:hover {
+  background-color: #007a3d;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #007a3d;
+  color: white;
+  font-weight: bold;
+  margin-top: 40px;
+}

@@ -1,0 +1,227 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4fdf7;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 500px;
+  margin: 50px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+  color: #007a3d;
+  text-align: center;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #00a86b;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #007a3d;
+}
+
+.hidden {
+  display: none;
+}
+.role-buttons {
+  display: flex;
+  justify-content: center;  /* Center both buttons */
+  gap: 20px;                /* Add horizontal spacing between buttons */
+  margin-bottom: 20px;
+}
+
+
+a {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  color: #007a3d;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+input:invalid {
+  border-color: red;
+}
+input:valid {
+  border-color: green;
+}
+
+
+.phone-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.phone-wrapper select {
+  flex: 0 0 80px;  /* fixed width for country code */
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+
+.phone-wrapper input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.dob-selects {
+  display: flex;
+  gap: 10px; /* Space between the dropdowns */
+  margin: 10px 0;
+}
+
+.dob-selects select {
+  flex: 1; /* Makes all selects the same width */
+}
+
+/* NAVBAR */
+.navbar {
+  background-color: #007a3d;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin-right: 20px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 5px;
+  padding: 8px 12px;
+}
+
+.navbar a:hover {
+  background-color: #15bc7f6d;
+  color: rgba(222, 214, 214, 0.902);
+  text-decoration: none;
+}
+
+.navbar-logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+/* FOOTER */
+  .footer {
+   text-align: center;
+  padding: 20px;
+  background-color: #007a3d;
+  color: white;
+  font-weight: bold;
+  margin-top: 40px;
+  }
+  
+  /* Standardized Header */
+.navbar {
+    background: #2d6a35 !important;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand, 
+.navbar-text,
+.navbar a {
+    color: white !important;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.navbar-logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+/* Standardized Dropdown */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+.dropdown-item:active {
+    background-color: #2d6a35;
+    color: white !important;
+}
+
+/* Standardized Footer */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    padding: 20px;
+}
+.footer {
+    background: #1b5e20 !important;
+    text-align: center;
+    color: white;
+    font-weight: 500;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+#otp-verification {
+  max-width: 500px;
+  margin: 20px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+#otp-verification input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#password-error {
+  color: red;
+  margin-top: 5px;
+  display: none;
+}

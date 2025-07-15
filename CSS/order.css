@@ -1,0 +1,134 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background-color: #f9fff9;
+  color: #333;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #007a3d;
+  padding: 10px 20px;
+  color: white;
+}
+
+.navbar .nav-left .nav-logo {
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin-right: 20px;
+  color: white;
+  text-decoration: none;
+}
+
+.navbar .nav-link {
+  margin-right: 15px;
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+}
+
+.navbar .nav-link:hover,
+.navbar .dropbtn:hover {
+  background-color: #00a86b;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: transparent;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  min-width: 140px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 10px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 0.95rem;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.header {
+  background-color: #d4fbe8;
+  padding: 30px 20px;
+  text-align: center;
+  border-bottom: 2px solid #b2f0d1;
+}
+
+.header h1 {
+  color: #007a3d;
+  margin: 0;
+}
+
+.subtitle {
+  color: #444;
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+.orders-section {
+  padding: 30px;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 14px 20px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.orders-table thead {
+  background-color: #00a86b;
+  color: white;
+}
+
+.orders-table tr:hover {
+  background-color: #f1fdf6;
+}
+
+.footer {
+  background-color: #e0f7e9;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 0.95rem;
+  color: #006644;
+  border-top: 2px solid #bdeccf;
+}

@@ -1,0 +1,288 @@
+/* sell.css */
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4fdf7;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .sell-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  
+  .sell-form {
+    flex: 1;
+    min-width: 300px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sell-form h2 {
+    margin-bottom: 20px;
+    color: #007a3d;
+  }
+  
+  .sell-form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .sell-form input,
+  .sell-form select,
+  .sell-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+  
+  .sell-form input:invalid {
+    border-color: red;
+  }
+  
+  .sell-form input:valid {
+    border-color: green;
+  }
+  
+  .sell-form button {
+    margin-top: 20px;
+    background-color: #00a86b;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .sell-form button:hover {
+    background-color: #007a3d;
+  }
+  
+  .price-summary {
+    flex: 0.8;
+    min-width: 250px;
+    background-color: #e8fff1;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+  }
+  
+  .price-summary h3 {
+    color: #007a3d;
+    margin-bottom: 15px;
+  }
+  
+  .price-breakdown {
+    margin-bottom: 15px;
+    line-height: 1.6;
+  }
+  
+  #preview {
+    margin-top: 10px;
+    max-width: 100%;
+    border-radius: 8px;
+    display: none;
+  }
+  
+
+  .motivation-banner {
+    background-color: #d4fbe8;
+    padding: 30px 20px;
+    text-align: center;
+    border-bottom: 2px solid #b2f0d1;
+  }
+  
+  .motivation-banner h1 {
+    font-size: 2rem;
+    color: #007a3d;
+    margin-bottom: 10px;
+  }
+  
+  .motivation-banner p {
+    font-size: 1.1rem;
+    color: #444;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  
+  .quote-section {
+    background-color: #f0fff5;
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #006644;
+    font-size: 1.1rem;
+    border-bottom: 1px dashed #bdeccf;
+  }
+  
+
+
+  /* NAVBAR */
+.navbar {
+    background-color: #007a3d;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: 500;
+  }
+  
+  .navbar a:hover {
+    text-decoration: underline;
+  }
+  
+  .nav-logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+  
+  /* Dropdown */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropbtn {
+    background-color: #007a3d;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  .dropdown-content a {
+    color: #007a3d;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #e8fff1;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .dropdown:hover .dropbtn {
+    background-color: #005f2e;
+  }
+  
+  /* FOOTER */
+  .footer {
+   text-align: center;
+  padding: 20px;
+  background-color: #007a3d;
+  color: white;
+  font-weight: bold;
+  margin-top: 40px;
+  }
+  
+
+  /* NAVBAR HOVER STYLES */
+.navbar a,
+.dropbtn {
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 5px;
+  padding: 8px 12px;
+}
+
+/* Hover effect for all navbar links */
+.navbar a:hover,
+.dropdown:hover .dropbtn {
+  background-color: #15bc7f6d;
+  color: rgba(222, 214, 214, 0.902);
+  text-decoration: none;
+}
+
+/* Dropdown link hover */
+.dropdown-content a:hover {
+  background-color: #d4fbe8;
+  color: #007a3d;
+}
+
+.waste-entry {
+  border: 1px solid #ccc;
+  padding: 10px;
+    display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.remove-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-top: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.remove-btn:hover {
+  background-color: darkred;
+}
+
+.add-btn {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.add-btn:hover {
+  background-color: darkgreen;
+}
+
+
+
+
+.remove-btn {
+  background-color: #f44336;
+  border: none;
+  color: white;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
